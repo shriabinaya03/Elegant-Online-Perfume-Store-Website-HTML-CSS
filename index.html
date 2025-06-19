@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfume</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav h1 {
+            color: #fff;
+            font-size: 2.2rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            margin: 0;
+        }
+
+        nav li {
+            color: #ccc;
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 10px 15px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        nav li:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        nav li::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        nav li:hover::before {
+            left: 100%;
+        }
+
+        /* Search Bar Styles */
+        .searchbar {
+            padding: 60px 50px;
+            text-align: center;
+            background: rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
+            margin: 20px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .searchbar input {
+            width: 60%;
+            max-width: 600px;
+            padding: 18px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            background: rgba(255,255,255,0.9);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .searchbar input:focus {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            background: #fff;
+        }
+
+        .searchbar input::placeholder {
+            color: #999;
+            font-style: italic;
+        }
+
+        /* Products Grid */
+        .products {
+            padding: 40px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .box {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+            background-size: 200% 100%;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { background-position: 200% 0; }
+            50% { background-position: -200% 0; }
+        }
+
+        .box:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            background: #fff;
+        }
+
+        .box img {
+            width: 100%;
+            max-width: 220px;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .box:hover img {
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .box hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ddd, transparent);
+            margin: 20px 0;
+        }
+
+        .box p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #555;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .box b {
+            color: #e74c3c;
+            font-size: 1.2rem;
+            display: block;
+            margin-top: 15px;
+            padding: 10px;
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            nav ul {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            nav h1 {
+                font-size: 1.8rem;
+            }
+
+            .searchbar {
+                padding: 40px 20px;
+                margin: 10px;
+            }
+
+            .searchbar input {
+                width: 90%;
+                padding: 15px 25px;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 10px;
+            }
+
+            .box {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav h1 {
+                font-size: 1.5rem;
+            }
+
+            nav li {
+                font-size: 1rem;
+                padding: 8px 12px;
+            }
+
+            .box img {
+                max-width: 180px;
+                height: 180px;
+            }
+        }
+
+        /* Loading Animation */
+        .box {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .box:nth-child(1) { animation-delay: 0.1s; }
+        .box:nth-child(2) { animation-delay: 0.2s; }
+        .box:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Scroll effects */
+        .products {
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .about{
+            margin-top: 20px;
+            padding: 20px;
+        }
+        p{
+            padding: 20px;
+        }
+        .contact{
+            text-align: center;
+            background-color: black;
+            color: white;
+            padding-bottom: 70px;
+        }
+        a{
+             cursor: pointer;
+        }
+        footer{
+            padding-top: 40px;
+        }
+        b{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <nav>
+            <h1>Perfume</h1>
+            <ul>
+                <li>Home</li>
+                <li>Products</li>
+                <li>About us</li>
+                <li>Contact</li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="searchbar">
+        <input placeholder="Search for your perfect fragrance...">
+    </div>
+
+    <div class="products">
+        <div class="products-grid">
+            <div class="box">
+                <img src="https://m.media-amazon.com/images/I/7134Ds7j4dL.SL1000.jpg" alt="Gucci Bloom Perfume">
+                <hr>
+                <p>
+                    Gucci Unisex Adult Bloom Edp Spray Fragrance - 100Ml<br>
+                    Scent Name: Floral<br>
+                    Size: 100 ml (Pack of 1)<br>
+                    Brand: Gucci<br>
+                </p>
+                <b>M.R.P.: ₹15,999.00</b>
+            </div>
+
+            <div class="box">
+                <img src="https://m.media-amazon.com/images/I/611Hx8q1l9L.SL1000.jpg" alt="YSL Black Opium Perfume">
+                <hr>
+                <p>
+                    Yves Saint Laurent Black Opium EDP Spray For Women, 30ml/1oz<br>
+                    Brand: Yves Saint Laurent<br>
+                </p>
+                <b>M.R.P.: ₹13,999.00</b>
+            </div>
+
+            <div class="box">
+                <img src="https://m.media-amazon.com/images/I/710fa-Et8LL.SL1500.jpg" alt="Lancome La Vie Est Belle Perfume">
+                <hr>
+                <p>
+                    Lancôme La Vie Est Belle Eau De Parfum Spray For women, 100ml<br>
+                    (Fruity, Jasmine, Spicy, Wood)<br>
+                    Brand: Lancôme<br>
+                </p>
+                <b>M.R.P.: ₹9,200.00</b>
+            </div>
+        </div>
+    </div>
+    
+    <div class="about">
+        <h1 style="text-align: center;">About Us</h1>
+        <p>
+Your one-stop online destination for the finest perfumes — from everyday favorites to luxurious designer scents, all at your fingertips.
+
+We are an e-commerce platform built to make high-quality fragrances accessible and affordable for everyone. Whether you're searching for a signature scent, gifting a loved one, or simply exploring something new, we bring you an extensive collection of perfumes from trusted brands across the world — all in one place.
+
+Our goal is simple: to deliver an easy, reliable, and enjoyable shopping experience. With user-friendly browsing, verified sellers, exciting deals, and fast doorstep delivery, we make perfume shopping effortless — just like your fragrance should be.
+
+From international classics to budget-friendly local favorites, our empowers you to shop smart, smell amazing, and express your identity through scent.
+
+Join thousands of satisfied customers and step into the world of fragrances — delivered with care, passion, and quality.
+        </p>
+    </div>
+    
+    <div class="contact">
+        <footer>
+            <a href="https://www.shopclues.com">https://www.shopclues.com</a>
+            <p>Worldwide Shipping</p>
+        </footer>
+    </div>
+</body>
+</html>
